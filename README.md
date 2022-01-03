@@ -5,7 +5,13 @@ the background color changed with the temperature obtained
 
 # Screenshots
 
-![]()
+<div style="display:flex; flex-direction: row; justify-content: center">
+
+<img style="margin-right:5px; margin-bottom:5px" src="https://github.com/yamil-90/weather-app-2/blob/main/assets/screenshots/shot1.png" width="400" height="800">
+<img style="margin-right:5px; margin-bottom:5px" src="https://github.com/yamil-90/weather-app-2/blob/main/assets/screenshots/shot2.png" width="400" height="800">
+<img style="margin-right:5px; margin-bottom:5px" src="https://github.com/yamil-90/weather-app-2/blob/main/assets/screenshots/shot3.png" width="400" height="800">
+</div>
+
 
 # Technologies 
 
