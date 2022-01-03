@@ -4,6 +4,7 @@ import axios from 'axios';
 
 
 import Form from './src/components/Form';
+import Weather from './src/components/Weather';
 
 const hideKeyBoard = () => {
     Keyboard.dismiss();
@@ -17,23 +18,33 @@ const App = () => {
     })
     const [consultApi, setConsultApi] = useState(false);
     const { country, city } = search;
-    const [apiResult, setApiResult] = useState('')
+    const [apiResult, setApiResult] = useState('');
+    const [backgroundColor, setBackgroundColor] = useState('rgb(71,149,212)')
     useEffect(() => {
         const requestApi = () => {
             if (consultApi) {
-                    console.log('so?');
-                    const weatherEnabler = "3f40706fa65396a8e1ae8be95faad4c1"
-                    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${weatherEnabler}`
-                    axios.get(url)                    
-                    .then((result)=>{
+
+                const weatherEnabler = "3f40706fa65396a8e1ae8be95faad4c1"
+                const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${weatherEnabler}&units=metric`
+                axios.get(url)
+                    .then((result) => {
                         setApiResult(result.data);
+                        const {main}= result.data;
+                        const current = main.temp;
+                        if(current <10){
+                            setBackgroundColor('rgb(105,108,149)')
+                        }else if (current >= 10 && current <25){
+                            setBackgroundColor('rgb(71,149,212)')
+                        }else{
+                            setBackgroundColor('rgb(178,28,61)')  
+                        }
                     })
-                    .catch(err=>{
+                    .catch(err => {
                         console.log(err);
                         showAlert()
                     })
-                    
-                
+
+
             }
             setConsultApi(false)
         }
@@ -49,23 +60,27 @@ const App = () => {
             ]
         )
     }
+    const bgColorApp = backgroundColor
 
     return (
         <>
             <Pressable
-                style={styles.app}
+                style={[styles.app, {backgroundColor:bgColorApp}]}
                 onPress={() => {
                     hideKeyBoard()
                 }}>
-                <View>
                     <View style={styles.content}>
+                        
+                        <Weather
+                        apiResult={apiResult}
+                        />
+                    
                         <Form
                             setSearch={setSearch}
                             search={search}
                             setConsultApi={setConsultApi}
                         />
                     </View>
-                </View>
             </Pressable>
 
         </>
@@ -78,11 +93,11 @@ mapEnabler = "AIzaSyA-A7EI0w6HlycpbiuJTduX6Fynl_Sg6wc"
 const styles = StyleSheet.create({
     app: {
         flex: 1,
-        backgroundColor: 'rgb(71,149,212)',
-        justifyContent: 'center'
     },
     content: {
-        marginHorizontal: '2.5%'
+        marginHorizontal: '2.5%',
+        marginTop:50
+        
     }
 
 })
